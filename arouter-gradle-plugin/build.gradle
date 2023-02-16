@@ -6,7 +6,8 @@ dependencies {
 }
 
 dependencies {
-    compile 'com.android.tools.build:gradle:2.1.3'
+    implementation 'com.android.tools.build:gradle:3.3.2'
+
 }
 
 apply from: rootProject.file('gradle/publish.gradle')

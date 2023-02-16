@@ -79,6 +79,9 @@ public class AutowiredProcessor extends BaseProcessor {
     }
 
     private void generateHelper() throws IOException, IllegalAccessException {
+        /**
+         * getTypeElement: 返回给定其规范名称的类型元素
+         */
         TypeElement type_ISyringe = elementUtils.getTypeElement(ISYRINGE);
         TypeElement type_JsonService = elementUtils.getTypeElement(JSON_SERVICE);
         TypeMirror iProvider = elementUtils.getTypeElement(Consts.IPROVIDER).asType();
@@ -269,7 +272,13 @@ public class AutowiredProcessor extends BaseProcessor {
     private void categories(Set<? extends Element> elements) throws IllegalAccessException {
         if (CollectionUtils.isNotEmpty(elements)) {
             for (Element element : elements) {
+                /**
+                 * getEnclosingElement 获取该元素的父元素,如果是PackageElement则返回null，
+                 * 如果是TypeElement则返回PackageElement，如果是TypeParameterElement则返回泛型Element
+                 */
+                logger.info("AutowiredProcessor#categories element:"+element.getSimpleName());
                 TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+                logger.info("AutowiredProcessor#categories enclosingElement:"+enclosingElement.getSimpleName() +"|| "+enclosingElement.getTypeParameters());
 
                 if (element.getModifiers().contains(Modifier.PRIVATE)) {
                     throw new IllegalAccessException("The inject fields CAN NOT BE 'private'!!! please check field ["

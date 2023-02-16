@@ -74,6 +74,7 @@ public class LogisticsCenter {
      */
     private static void register(String className) {
         if (!TextUtils.isEmpty(className)) {
+            logger.info(TAG, "register start, class name: " + className);
             try {
                 Class<?> clazz = Class.forName(className);
                 Object obj = clazz.getConstructor().newInstance();

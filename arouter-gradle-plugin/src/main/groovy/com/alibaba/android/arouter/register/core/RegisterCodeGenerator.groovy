@@ -103,6 +103,9 @@ class RegisterCodeGenerator {
         }
     }
 
+    /**
+     * 向LogisticsCenter#loadRouterMap中register(className)
+     */
     class RouteMethodVisitor extends MethodVisitor {
 
         RouteMethodVisitor(int api, MethodVisitor mv) {
@@ -115,7 +118,18 @@ class RegisterCodeGenerator {
             if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
                 extension.classList.each { name ->
                     name = name.replaceAll("/", ".")
+                    /**
+                     * visitLdcInsn:访问ldc指令，也就是访问常量池索引；从常量表中装载一个数据到堆栈中。
+                     */
                     mv.visitLdcInsn(name)//类名
+                    /**
+                     * visitMethodInsn:访问方法指令 visitMethodInsn(opcode, owner, name, descriptor);
+                     * opcode：为INVOKESPECIAL,INVOKESTATIC,INVOKEVIRTUAL,INVOKEINTERFACE;
+                     * owner:方法拥有者的名称;
+                     * name:方法名称;
+                     * descriptor:方法描述，参数和返回值;
+                     * isInterface；是否是接口;
+                     */
                     // generate invoke register method into LogisticsCenter.loadRouterMap()
                     mv.visitMethodInsn(Opcodes.INVOKESTATIC
                             , ScanSetting.GENERATE_TO_CLASS_NAME
